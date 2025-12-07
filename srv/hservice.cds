@@ -2,6 +2,7 @@ using db from '../db/schema';
 
 service hservice{
     @odata.draft.enabled
+    @odata.draft.bypass
     entity Patients as projection on db.Patients;
     entity Doctors as projection on db.Doctors;
     entity Visits as projection on db.Visits;

@@ -22,13 +22,13 @@
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "private": true,
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "hana"
-      }
+ "cds": {
+  "requires": {
+    "db": {
+      "kind": "hana"
     }
-  },
+  }
+},
   "workspaces": [
     "app/*"
   ],

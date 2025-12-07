@@ -1,22 +1,3 @@
-// sap.ui.define([
-//     "sap/m/MessageToast"
-// ], function(MessageToast) {
-//     'use strict';
-
-//     return {
-//         /**
-//          * Generated event handler.
-//          *
-//          * @param oContext the context of the page on which the event was fired. `undefined` for list report page.
-//          * @param aSelectedContexts the selected contexts of the table rows.
-//          */
-//         CustomCreateAjax: function(oContext, aSelectedContexts) {
-//             MessageToast.show("Custom handler invoked.");
-//         }
-//     };
-// });
-
-
 
 sap.ui.define([
     "sap/m/Dialog",
@@ -75,18 +56,11 @@ sap.ui.define([
                                             patName: name,
                                             patPhno: phone,
                                             status: status,
+                                            IsActiveEntity: true
                                         };
 
-                                        // let active = await $.ajax({
-                                        //     url: `/odata/v4/hservice/Patients?IsActiveEntity=true`,
-                                        //     method: "POST",
-                                        //     contentType: "application/json",
-                                        //     data: JSON.stringify(payload)
-                                        // });
-
-
-                                        //  Create Draft
-                                        let draft = await $.ajax({
+                                        //insert in active table
+                                        let obj = await $.ajax({
                                             url: `/odata/v4/hservice/Patients`,
                                             method: "POST",
                                             contentType: "application/json",
@@ -94,43 +68,70 @@ sap.ui.define([
                                         });
 
 
-                                        console.log("Draft created:", draft);
+                                        console.log("inserted Object:", obj);
 
-                                        let pid = draft.patId;
-
-                                        //Activate draft (move from drafts to main table)
-                                        let activated = await $.ajax({
-                                            url: `/odata/v4/hservice/Patients(patId='${draft.patId}',IsActiveEntity=false)/draftActivate`,
-                                            method: "POST",
-                                            contentType: "application/json"
-                                        });
-
-
-                                        console.log("Final saved record:", activated);
-
-                                        if (activated.IsActiveEntity === true) {
+                                        if (obj.IsActiveEntity === true) {
                                             sap.m.MessageBox.success(`Record Inserted `);
                                         } else {
                                             sap.m.MessageBox.error(`Insertion Failed`);
                                         }
 
+
+                                        //activate the draft
+                                        // let pid = draft.patId;
+
+                                        //Activate draft (move from drafts to main table)
+                                        // let activated = await $.ajax({
+                                        //     url: `/odata/v4/hservice/Patients(patId='${draft.patId}',IsActiveEntity=false)/draftActivate`,
+                                        //     method: "POST",
+                                        //     contentType: "application/json"
+                                        // });
+
+
+                                        // console.log("Final saved record:", activated);
+
+                                        // if (activated.IsActiveEntity === true) {
+                                        //     sap.m.MessageBox.success(`Record Inserted `);
+                                        // } else {
+                                        //     sap.m.MessageBox.error(`Insertion Failed`);
+                                        // }
+
                                         this._dialog.close();
 
                                     }
                                     catch (e) {
-                                        let msg = "";
-                                        console.log(e);
-                                        console.log(e.error);
 
-                                        if (e.error.details) {
-                                            for (const err of e.error.details) {
-                                                msg += err.message + "\n";
-                                            }
-                                        } else {
+                                        //for draft acivate 
+                                        // let msg = "";
+                                        // console.log("object--",e);
+                                        // console.log(e.error);
+
+                                        // if (e.error.details) {
+                                        //     for (const err of e.error.details) {
+                                        //         msg += err.message + "\n";
+                                        //     }
+                                        // } else {
+                                        //     msg = e.message;
+                                        // }
+                                        // sap.m.MessageBox.error(msg);
+
+                                        //new
+                                        let msg = "";
+
+                                        
+                                        if (e?.responseJSON?.error?.details?.length) {
+                                            msg = e.responseJSON.error.details.map(err => err.message).join("\n");
+                                        } else if (e?.responseJSON?.error?.message) {
+                                        
+                                            msg = e.responseJSON.error.message;
+                                        } else if (e?.message) {
                                             msg = e.message;
+                                        } else {
+                                            msg = "An unexpected error occurred";
                                         }
 
                                         sap.m.MessageBox.error(msg);
+
                                     }
 
 

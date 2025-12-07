@@ -1,0 +1,19 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <VBox class="sapUiSmallMargin">
+
+        <Button
+            text="Open Dialog"
+            type="Emphasized"
+            press="handler.onOpenDialog"
+            core:require="{ handler: 'patients/ext/fragment/Custom' }"
+        />
+
+    </VBox>
+
+</core:FragmentDefinition> 
+
+
+

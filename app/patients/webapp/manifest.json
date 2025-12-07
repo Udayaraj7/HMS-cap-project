@@ -1,0 +1,235 @@
+{
+  "_version": "1.76.0",
+  "sap.app": {
+    "id": "patients",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.19.6",
+      "toolsId": "d326ca13-76e0-43ad-81bb-b40e9a305dc1"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/hservice/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.143.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "patients.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "PatientsList",
+          "target": "PatientsList"
+        },
+        {
+          "pattern": "Patients({key}):?query:",
+          "name": "PatientsObjectPage",
+          "target": "PatientsObjectPage"
+        },
+        {
+          "pattern": "Patients({key})/patientsToVisits({key2}):?query:",
+          "name": "VisitsObjectPage",
+          "target": "VisitsObjectPage"
+        }
+      ],
+      "targets": {
+        "PatientsList": {
+          "type": "Component",
+          "id": "PatientsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Patients",
+              "variantManagement": "Page",
+              "navigation": {
+                "Patients": {
+                  "detail": {
+                    "route": "PatientsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "CustomCreate": {
+                      "press": "patients.ext.controller.Create.CustomCreate",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "customCreate"
+                    },
+                    "CreateAjax123": {
+                      "press": "patients.ext.controller.CreateAjax.CustomCreateAjax",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "CreateAjax",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "CustomCreate"
+                      }
+                    }
+                  }
+                }
+              },
+              "initialLoad": "Disabled"
+            }
+          }
+        },
+        "PatientsObjectPage": {
+          "type": "Component",
+          "id": "PatientsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Patients",
+              "navigation": {
+                "patientsToVisits": {
+                  "detail": {
+                    "route": "VisitsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "header": {
+                  "actions": {
+                    "TotalSumFe": {
+                      "press": "patients.ext.controller.TotalSumFe.totalSumFe",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Total-fe",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "EditAction"
+                      }
+                    },
+                    "Totalbackend": {
+                      "press": "patients.ext.controller.TotalsumBE.totalSumBe",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "Total-be",
+                      "position": {
+                        "placement": "Before",
+                        "anchor": "TotalSumFe"
+                      }
+                    }
+                  }
+                },
+                "body": {
+                  "sections": {
+                    "Custom": {
+                      "template": "patients.ext.fragment.Custom",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Visits"
+                      },
+                      "title": "CustomSection"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VisitsObjectPage": {
+          "type": "Component",
+          "id": "VisitsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Patients/patientsToVisits"
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#patients::PatientsObjectPage": {
+            "controllerName": "patients.ext.controller.Custom"
+          },
+          "sap.fe.templates.ListReport.ListReportController#patients::PatientsList": {
+            "controllerName": "patients.ext.controller.PatientList"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

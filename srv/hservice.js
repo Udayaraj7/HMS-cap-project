@@ -36,6 +36,23 @@ module.exports = cds.service.impl(function (srv) {
 
     })
 
+   
+
+    // Action to get patient
+    this.on('getPatient', async (req) => {
+        const { patId } = req.data;
+
+        
+        const patient = await SELECT.one.from(Patients).where({ patId });
+        console.log(patient)
+
+        if (!patient) {
+            return req.error(404, `Patient with ID ${patId} not found`);
+        }
+
+        return JSON.stringify(patient);  
+    });
+
 
     //Insert in to Patient table
     this.on('insertToPatient', async function (req) {
@@ -263,17 +280,17 @@ module.exports = cds.service.impl(function (srv) {
     this.on("UPDATE", Patients, async (req, next) => {
         debugger
 
-        const old = await SELECT.one.from(Patients).where({ patId: req.data.patId });
+        // const old = await SELECT.one.from(Patients).where({ patId: req.data.patId });
 
 
-        console.log("Old Phone:", oldPhno);
-        console.log("New Phone:", newPhno);
+        // console.log("Old Phone:", oldPhno);
+        // console.log("New Phone:", newPhno);
 
 
-        if (newPhno === oldPhno) {
-            req.info(200, "No changes detected. Phone number is already same.");
-            return old;
-        }
+        // if (newPhno === oldPhno) {
+        //     req.info(200, "No changes detected. Phone number is already same.");
+        //     return old;
+        // }
 
         return next();
     });

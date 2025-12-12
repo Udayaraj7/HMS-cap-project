@@ -107,7 +107,7 @@
           "options": {
             "settings": {
               "contextPath": "/Patients",
-              "variantManagement": "Page",
+              "variantManagement": "None",
               "navigation": {
                 "Patients": {
                   "detail": {
@@ -118,7 +118,13 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "selectionLimit": 2,
+                    "selectAll": true,
+                    "condensedTableLayout": false,
+                    "enableExport": false,
+                    "enableMassEdit": false,
+                    "selectionMode": "None"
                   },
                   "actions": {
                     "CustomCreate": {
@@ -139,10 +145,17 @@
                         "anchor": "CustomCreate"
                       }
                     }
+                  },
+                  "columns": {
+                    "DataField::patId": {
+                      "availability": "Default"
+                    }
                   }
                 }
               },
-              "initialLoad": "Disabled"
+              "initialLoad": "Disabled",
+              "hideFilterBar": false,
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#table1"
             }
           }
         },
@@ -195,10 +208,19 @@
                         "anchor": "Visits"
                       },
                       "title": "CustomSection"
+                    },
+                    "InputForm": {
+                      "template": "patients.ext.fragment.InputForm",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "Custom"
+                      },
+                      "title": "Form"
                     }
                   }
                 }
-              }
+              },
+              "sectionLayout": "Page"
             }
           }
         },
@@ -218,11 +240,11 @@
     "extends": {
       "extensions": {
         "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ObjectPage.ObjectPageController#patients::PatientsObjectPage": {
-            "controllerName": "patients.ext.controller.Custom"
-          },
           "sap.fe.templates.ListReport.ListReportController#patients::PatientsList": {
             "controllerName": "patients.ext.controller.PatientList"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#patients::PatientsObjectPage": {
+            "controllerName": "patients.ext.controller.PatientObject1"
           }
         }
       }
@@ -231,5 +253,11 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
+  },
+  "sap.fe": {
+    "app": {},
+    "macros": {
+      "table": {}
+    }
   }
 }

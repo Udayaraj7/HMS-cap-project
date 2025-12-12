@@ -85,6 +85,9 @@ sap.ui.define(
 
 
           } */
+         onBeforeBinding:async function(){
+debugger
+         },
          onAfterBinding: async function (oContext) {
                     debugger;
  
@@ -140,6 +143,12 @@ sap.ui.define(
             debugger;
             console.log("on before edit")
           }
+          ,onAfterEdit:async function(){
+            debugger;
+            console.log("on after edit")
+          }
+
+
         } 
       }
     })

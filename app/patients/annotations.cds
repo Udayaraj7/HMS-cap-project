@@ -55,7 +55,50 @@ annotate service.Patients with @(
             Label : 'patPhno',
             Value : patPhno,
         },
+        {
+            $Type : 'UI.DataField',
+            Label:'status',
+            Value : status,
+            Criticality : statusCriticality,
+            CriticalityRepresentation : #WithIcon,
+        },
     ],
+    UI.SelectionPresentationVariant #table : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+    },
+    UI.SelectionPresentationVariant #table1 : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+    },
+    UI.HeaderInfo : {
+        TypeName : '',
+        TypeNamePlural : '',
+    },
+    Communication.Contact #contact : {
+        $Type : 'Communication.ContactType',
+        fn : status,
+    },
 );
 
 annotate service.Visits with @(
@@ -115,4 +158,8 @@ annotate service.Visits with @(
         ],
     },
 );
+
+annotate service.Patients with {
+    status @Common.Label : 'group'
+};
 

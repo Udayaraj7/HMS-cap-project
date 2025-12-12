@@ -1,0 +1,35 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox core:require="{ handler: 'patients/ext/fragment/InputForm'}">
+
+        <Label text="Patient ID"/>
+        <Input id="patId" />
+
+        
+        <Label text="Patient Name"/>
+        <Input id="patName" />
+
+        
+        <Label text="Phone Number"/>
+        <Input id="patPhno" />
+
+        
+        <Label text="Gender"/>
+        <Select id="gender">
+            <core:Item key="Male" text="Male"/>
+            <core:Item key="Female" text="Female"/>
+        </Select>
+
+        
+        <Label text="Status"/>
+        <Input id="status" />
+
+        
+        <HBox >
+        <Button text="Submit" press="handler.onPress" class="sapUiSmallMarginTop"/>
+		<Button text="Cancel" press="handler.onCancel" class="sapUiSmallMarginTop sapUiSmallMarginBegin"/>
+		</HBox>
+        
+	</VBox>
+</core:FragmentDefinition>
+
+

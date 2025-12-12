@@ -15,6 +15,8 @@ service hservice{
 
         function insertToPatientDraft(patientId:String,patientName:String,patientPhno:String,patientStatus:String)
         returns String;
+
+        action getPatient(patId : String) returns String;
     
     
 }
